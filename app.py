@@ -1,6 +1,7 @@
 from flask import Flask, request, render_template, url_for
 from orm_importer.importer import ORMImporter
 from planproexporter import Generator
+from railwayroutegenerator.generator import generate_from_topology
 
 app = Flask(__name__)
 
@@ -16,8 +17,13 @@ def run_converter():
     if not polygon:
         return 'No location specified', 400
     topology = ORMImporter().run(polygon)
-    planpro = Generator().generate(topology)
-    return planpro, 200
+    match request.args.get("mode"):
+        case "planpro":
+            return Generator().generate(topology), 200
+        case "routes":
+            return generate_from_topology(topology), 200
+        case _:
+            return 'No mode specified', 400
 
 
 if __name__ == "__main__":

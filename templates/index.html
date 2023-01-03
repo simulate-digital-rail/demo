@@ -12,7 +12,7 @@
         crossorigin=""></script>
         <script src="{{ axios_file }}"></script>
         <script src="{{ modal_file }}"></script>
-        <title>ORM-PlanPro-Converter</title>
+        <title>Simulate Digital Rail Demo</title>
     </head>
     <body>
         <main class="container">
@@ -22,11 +22,16 @@
                 <div></div>
             </div>
             <form>
-                <label for="polygon">
+                <div>
+                    <label for="polygon">
                     Surrounding Polygon
                     <input type="text" id="polygon" name="polygon" value="" required>
-                </label>
-                <button id="submit_button" type="button">Submit</button>
+                    </label>
+                </div>
+                <div class="grid">
+                    <button id="submit-planpro" class="submit-button" type="button" value="planpro">Generate PlanPro</button>
+                    <button id="submit-routes" class="submit-button" type="button" value="routes">Genereate routes</button>
+                </div>
             </form>
             <textarea id="result_area" rows="20" hidden="true" readonly></textarea>
 
@@ -83,24 +88,29 @@
             })
 
 
-            document.getElementById("submit_button").onclick = function() {
+            document.querySelectorAll(".submit-button").forEach(element => element.onclick = function(event) {
 
-                document.getElementById("submit_button").setAttribute("aria-busy", "true");;
+                event.target.setAttribute("aria-busy", "true");
                 document.getElementById("result_area").hidden = true;
  
-                axios.get("/run", {params : {polygon : document.getElementById("polygon").value}})
+                axios.get("/run", {params : {polygon : document.getElementById("polygon").value, mode: event.target.value}})
                     .then(response => {
-                        document.getElementById("result_area").value = response.data;
+                        if (typeof response.data == "string") {
+                            document.getElementById("result_area").value = response.data;
+                        } else {
+                            document.getElementById("result_area").value = JSON.stringify(response.data, null, 4);
+                        }
+
                         document.getElementById("result_area").hidden = false;
-                        document.getElementById("submit_button").setAttribute("aria-busy", "false");;
+                        event.target.setAttribute("aria-busy", "false");
                     })
                     .catch(error => {
                         document.getElementById("error_message").textContent = error.message;
                         console.log(error)
-                        document.getElementById("submit_button").setAttribute("aria-busy", "false");;
+                        event.target.setAttribute("aria-busy", "false");
                         openModal(document.getElementById("error_modal"));
                     });
-                }
+                });
         </script>
     </body>
 </html>
