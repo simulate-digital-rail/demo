@@ -1,6 +1,6 @@
 from flask import Flask, request, render_template, url_for
 from orm_importer.importer import ORMImporter
-from planprogenerator import Generator, Config
+from planproexporter import Generator
 
 app = Flask(__name__)
 
@@ -16,7 +16,7 @@ def run_converter():
     if not polygon:
         return 'No location specified', 400
     topology = ORMImporter().run(polygon)
-    planpro = Generator().generate(topology.nodes.values(), topology.edges.values(), topology.signals.values(), Config(author_name="b", coord_representation="wgs84", organisation="b"))
+    planpro = Generator().generate(topology)
     return planpro, 200
 
 

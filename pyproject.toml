@@ -9,7 +9,7 @@ readme = "README.md"
 python = "^3.10"
 Flask = "^2.2.2"
 railway-route-generator = {git = "https://github.com/simulate-digital-rail/railway-route-generator"}
-orm-planpro-converter = {git = "https://github.com/simulate-digital-rail/orm-importer"}
+orm-importer = {git = "https://github.com/simulate-digital-rail/orm-importer"}
 planpro-exporter = {git = "https://github.com/simulate-digital-rail/planpro-exporter"}
 
 
