@@ -30,9 +30,10 @@
                 </div>
                 <div class="grid">
                     <button id="submit-planpro" class="submit-button" type="button" value="planpro">Generate PlanPro</button>
-                    <button id="submit-routes" class="submit-button" type="button" value="routes">Genereate routes</button>
+                    <button id="submit-routes" class="submit-button" type="button" value="routes">Generate routes</button>
                 </div>
             </form>
+            <a id="download-results" style="width: 100%; margin-bottom: 1em;" role="button" download="generated.ppxml" hidden="true">Download Results</a>
             <textarea id="result_area" rows="20" hidden="true" readonly></textarea>
 
             <dialog id="error_modal">
@@ -87,11 +88,11 @@
                 map.removeEventListener('mousemove');
             })
 
-
             document.querySelectorAll(".submit-button").forEach(element => element.onclick = function(event) {
 
                 event.target.setAttribute("aria-busy", "true");
                 document.getElementById("result_area").hidden = true;
+                document.getElementById("download-results").hidden = true;
  
                 axios.get("/run", {params : {polygon : document.getElementById("polygon").value, mode: event.target.value}})
                     .then(response => {
@@ -102,7 +103,12 @@
                         }
 
                         document.getElementById("result_area").hidden = false;
+                        document.getElementById("download-results").hidden = false;
                         event.target.setAttribute("aria-busy", "false");
+
+                        let results = document.getElementById("result_area").value;
+                        let url = URL.createObjectURL(new Blob([results], {type: "text/plain"}));
+                        document.getElementById("download-results").href = url;
                     })
                     .catch(error => {
                         document.getElementById("error_message").textContent = error.message;
