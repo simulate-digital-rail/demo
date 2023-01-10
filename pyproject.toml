@@ -13,6 +13,10 @@ orm-importer = {git = "https://github.com/simulate-digital-rail/orm-importer"}
 planpro-exporter = {git = "https://github.com/simulate-digital-rail/planpro-exporter"}
 
 
+[tool.poetry.group.dev.dependencies]
+cli-importer = {git = "https://github.com/simulate-digital-rail/cli-importer"}
+planpro-exporter = {git = "https://github.com/simulate-digital-rail/planpro-exporter"}
+
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
