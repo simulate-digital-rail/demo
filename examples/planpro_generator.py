@@ -9,6 +9,7 @@ if __name__ == '__main__':
     generator = Generator()
     generator.generate(_cli.topology,
         author_name="Your Name",
-        organisation="Your Organization", filename="Export")
+        organisation="Your Organization",
+        filename=_cli.topology.name)
     print("Generation completed")
     print("Generator terminates.")
