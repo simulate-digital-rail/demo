@@ -1,7 +1,9 @@
+import json
+
 from flask import Flask, request, render_template, url_for
 from orm_importer.importer import ORMImporter
 from planproexporter import Generator
-from railwayroutegenerator.generator import generate_from_topology
+from railwayroutegenerator.routegenerator import RouteGenerator
 
 app = Flask(__name__)
 
@@ -21,7 +23,8 @@ def run_converter():
         case "planpro":
             return Generator().generate(topology), 200
         case "routes":
-            return generate_from_topology(topology), 200
+            RouteGenerator(topology).generate_routes()
+            return json.dumps(topology.to_serializable()[0]["routes"]), 200
         case _:
             return 'No mode specified', 400
 
