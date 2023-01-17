@@ -349,7 +349,7 @@ yaramo = {git = "https://github.com/simulate-digital-rail/yaramo"}
 type = "git"
 url = "https://github.com/simulate-digital-rail/railway-route-generator"
 reference = "HEAD"
-resolved_reference = "cb5533671bd4c51534bc5bf8fc43387d84b9087b"
+resolved_reference = "4a98c33287e3b9b626195962e016a8fe6dbe2008"
 
 [[package]]
 name = "six"
