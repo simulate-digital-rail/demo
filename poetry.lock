@@ -231,7 +231,7 @@ zipp = "3.8.1"
 type = "git"
 url = "https://github.com/simulate-digital-rail/orm-importer"
 reference = "HEAD"
-resolved_reference = "dedd861f640bd61717f6ad2090d6c23b0b2af9b6"
+resolved_reference = "f26e3ccf344cf530959588924df540de5cd406fd"
 
 [[package]]
 name = "overpy"
@@ -268,7 +268,7 @@ yaramo = {git = "https://github.com/simulate-digital-rail/yaramo"}
 type = "git"
 url = "https://github.com/simulate-digital-rail/planpro-exporter"
 reference = "HEAD"
-resolved_reference = "d6f70a7888895526413b925fe93f4b461bf45e71"
+resolved_reference = "f4a587392c8c09058e04b8d504156eb5feb9f7c1"
 
 [[package]]
 name = "pluggy"
@@ -349,7 +349,7 @@ yaramo = {git = "https://github.com/simulate-digital-rail/yaramo"}
 type = "git"
 url = "https://github.com/simulate-digital-rail/railway-route-generator"
 reference = "HEAD"
-resolved_reference = "f8e721c4929f3e4a4abbb47cc4a2b4e792da6774"
+resolved_reference = "4a98c33287e3b9b626195962e016a8fe6dbe2008"
 
 [[package]]
 name = "six"
@@ -397,7 +397,7 @@ pyproj = "^3.4.1"
 type = "git"
 url = "https://github.com/simulate-digital-rail/yaramo"
 reference = "HEAD"
-resolved_reference = "a13b1c8af08c296404b0f9bf3a26c60552dc76ca"
+resolved_reference = "c0a17eeba0302c6846b86e5d579d837070055d3d"
 
 [[package]]
 name = "zipp"
