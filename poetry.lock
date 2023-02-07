@@ -44,7 +44,7 @@ yaramo = {git = "https://github.com/simulate-digital-rail/yaramo"}
 type = "git"
 url = "https://github.com/simulate-digital-rail/cli-importer"
 reference = "HEAD"
-resolved_reference = "c8f163584f5c84158399b99edd97b527c4eae4e5"
+resolved_reference = "9674ef2767b527fb4a4ab2a5e20b615e5a76d9c5"
 
 [[package]]
 name = "click"
@@ -174,7 +174,7 @@ test = ["pytest (<5.4)", "pytest-cov"]
 
 [[package]]
 name = "networkx"
-version = "2.8.4"
+version = "2.8.6"
 description = "Python package for creating and manipulating graphs and networks"
 category = "main"
 optional = false
@@ -182,7 +182,7 @@ python-versions = ">=3.8"
 
 [package.extras]
 default = ["matplotlib (>=3.4)", "numpy (>=1.19)", "pandas (>=1.3)", "scipy (>=1.8)"]
-developer = ["mypy (>=0.960)", "pre-commit (>=2.19)"]
+developer = ["mypy (>=0.961)", "pre-commit (>=2.20)"]
 doc = ["nb2plots (>=0.6)", "numpydoc (>=1.4)", "pillow (>=9.1)", "pydata-sphinx-theme (>=0.9)", "sphinx (>=5)", "sphinx-gallery (>=0.10)", "texext (>=0.6.6)"]
 extra = ["lxml (>=4.6)", "pydot (>=1.4.2)", "pygraphviz (>=1.9)", "sympy (>=1.10)"]
 test = ["codecov (>=2.1)", "pytest (>=7.1)", "pytest-cov (>=3.0)"]
@@ -214,7 +214,7 @@ itsdangerous = "2.1.2"
 lxml = "^4.9.0"
 markupsafe = "2.1.1"
 mock = "4.0.3"
-networkx = "2.8.4"
+networkx = "2.8.6"
 numpy = "1.23.5"
 overpy = "0.6"
 packaging = "21.3"
@@ -231,7 +231,7 @@ zipp = "3.8.1"
 type = "git"
 url = "https://github.com/simulate-digital-rail/orm-importer"
 reference = "HEAD"
-resolved_reference = "f26e3ccf344cf530959588924df540de5cd406fd"
+resolved_reference = "de18f82a4f0ce05f78c019870bb82373977f38da"
 
 [[package]]
 name = "overpy"
@@ -268,7 +268,7 @@ yaramo = {git = "https://github.com/simulate-digital-rail/yaramo"}
 type = "git"
 url = "https://github.com/simulate-digital-rail/planpro-exporter"
 reference = "HEAD"
-resolved_reference = "f4a587392c8c09058e04b8d504156eb5feb9f7c1"
+resolved_reference = "7cdc0af47ed87f65eb9bf374c0e96530cf6920e6"
 
 [[package]]
 name = "pluggy"
@@ -349,7 +349,7 @@ yaramo = {git = "https://github.com/simulate-digital-rail/yaramo"}
 type = "git"
 url = "https://github.com/simulate-digital-rail/railway-route-generator"
 reference = "HEAD"
-resolved_reference = "4a98c33287e3b9b626195962e016a8fe6dbe2008"
+resolved_reference = "d36440e34c0aaff7dc0e375944fbf38d4591bfd5"
 
 [[package]]
 name = "six"
@@ -397,7 +397,7 @@ pyproj = "^3.4.1"
 type = "git"
 url = "https://github.com/simulate-digital-rail/yaramo"
 reference = "HEAD"
-resolved_reference = "c0a17eeba0302c6846b86e5d579d837070055d3d"
+resolved_reference = "77831b7deb39bb9a1bc251dbe02ced7de60a7d6d"
 
 [[package]]
 name = "zipp"
@@ -587,8 +587,8 @@ mock = [
     {file = "mock-4.0.3.tar.gz", hash = "sha256:7d3fbbde18228f4ff2f1f119a45cdffa458b4c0dee32eb4d2bb2f82554bac7bc"},
 ]
 networkx = [
-    {file = "networkx-2.8.4-py3-none-any.whl", hash = "sha256:6933b9b3174a0bdf03c911bb4a1ee43a86ce3edeb813e37e1d4c553b3f4a2c4f"},
-    {file = "networkx-2.8.4.tar.gz", hash = "sha256:5e53f027c0d567cf1f884dbb283224df525644e43afd1145d64c9d88a3584762"},
+    {file = "networkx-2.8.6-py3-none-any.whl", hash = "sha256:2a30822761f34d56b9a370d96a4bf4827a535f5591a4078a453425caeba0c5bb"},
+    {file = "networkx-2.8.6.tar.gz", hash = "sha256:bd2b7730300860cbd2dafe8e5af89ff5c9a65c3975b352799d87a6238b4301a6"},
 ]
 numpy = [
     {file = "numpy-1.23.5-cp310-cp310-macosx_10_9_x86_64.whl", hash = "sha256:9c88793f78fca17da0145455f0d7826bcb9f37da4764af27ac945488116efe63"},
