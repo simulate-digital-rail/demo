@@ -4,6 +4,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="{{ css_file }}">
+        <link rel="stylesheet" href="{{ custom_css_file }}">
         <link rel="stylesheet" href="https://unpkg.com/leaflet@1.8.0/dist/leaflet.css"
         integrity="sha512-hoalWLoI8r4UszCkZ5kL8vayOGVae1oxXe/2A4AO6J9+580uKHDO3JdHb7NzwwzK5xr/Fs0W40kiNHxM9vyTtQ=="
         crossorigin=""/>
@@ -12,25 +13,39 @@
         crossorigin=""></script>
         <script src="{{ axios_file }}"></script>
         <script src="{{ modal_file }}"></script>
-        <title>Simulate Digital Rail Demo</title>
+        <title>OpenRailwayMap to PlanPro Converter</title>
     </head>
     <body>
         <main class="container">
-            <h2>Welcome to the Simulate Digital Rail demonstration!</h2>
-            <div id="map", style="height: 30em;"></div>
+            <h2>OpenRailwayMap to PlanPro Converter</h2>
+            <div id="map" style="height: 30em;"></div>
             <div class="grid">
                 <div></div>
             </div>
             <form>
                 <div>
                     <label for="polygon">
-                    Surrounding Polygon
+                    Surrounding Polygon:
                     <input type="text" id="polygon" name="polygon" value="" required>
+                    </label>
+                </div>
+                <div>
+                    <label for="options">
+                        Options:
+                        <ul id="options_list">
+                            {% for type in railway_option_types %}
+                                {% if type == "rail" %}
+                                    {% set checked = " checked" %}
+                                {% endif %}
+                                <li><input type="checkbox" id="{{ type }}" name="railway_type_options" value="{{ type }}"{{ checked }}>
+                                <label for="{{type}}">{{type}}</label></li>
+                            {% endfor %}
+                        </ul>
                     </label>
                 </div>
                 <div class="grid">
                     <button id="submit-planpro" class="submit-button" type="button" value="planpro">Generate PlanPro</button>
-                    <button id="submit-routes" class="submit-button" type="button" value="routes">Generate routes</button>
+                    <button id="submit-routes" class="submit-button" type="button" value="routes">Generate Routes</button>
                 </div>
             </form>
             <a id="download-results" style="width: 100%; margin-bottom: 1em;" role="button" download="generated.ppxml" hidden="true">Download Results</a>
@@ -94,7 +109,7 @@
                 document.getElementById("result_area").hidden = true;
                 document.getElementById("download-results").hidden = true;
  
-                axios.get("/run", {params : {polygon : document.getElementById("polygon").value, mode: event.target.value}})
+                axios.get("/run", {params : {polygon : document.getElementById("polygon").value, mode: event.target.value, railway_option_types: Array.from(document.querySelectorAll('input[name=railway_type_options]:checked')).map(x => x.value)}})
                     .then(response => {
                         if (typeof response.data == "string") {
                             document.getElementById("result_area").value = response.data;
