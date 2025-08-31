@@ -4,13 +4,16 @@ version = "3.0"
 description = "Simulate Digital Rail demo"
 authors = ["OSM at HPI <arne.boockmeyer@hpi.de>"]
 readme = "README.md"
+package-mode = false
 
 [tool.poetry.dependencies]
 python = "^3.11"
 Flask = "^2.2.2"
+yaramo = {git = "https://github.com/simulate-digital-rail/yaramo", branch = "yaramo2" }
 railway-route-generator = {git = "https://github.com/simulate-digital-rail/railway-route-generator", branch = "yaramo2" }
 orm-importer = {git = "https://github.com/simulate-digital-rail/orm-importer", branch = "yaramo2" }
 planpro-exporter = {git = "https://github.com/simulate-digital-rail/planpro-exporter", branch = "yaramo2" }
+schematicconverter = {git = "https://github.com/simulate-digital-rail/schematic-converter"}
 
 
 [tool.poetry.group.dev.dependencies]

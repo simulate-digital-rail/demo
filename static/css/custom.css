@@ -1,0 +1,44 @@
+div#map a {
+    --form-element-spacing-horizontal: 0em;
+    --form-element-spacing-vertical: 0em;
+}
+
+ul#options_list {
+    columns: 5
+}
+
+.layout {
+    display: flex;
+    min-height: 100vh;
+}
+
+.sidebar {
+    background: #222;
+    color: #fff;
+    padding: 1em;
+    width: 200px;
+    transition: width 0.3s ease;
+}
+
+.sidebar nav ul {
+    list-style: none;
+    padding: 0;
+}
+
+.sidebar nav ul li {
+    margin: 1em 0;
+}
+
+.sidebar nav ul li a {
+    color: white;
+    text-decoration: none;
+}
+
+#toggle-btn {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 1.5em;
+    cursor: pointer;
+    margin-bottom: 1em;
+}

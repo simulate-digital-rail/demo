@@ -1,8 +1,0 @@
-div#map a {
-    --form-element-spacing-horizontal: 0em;
-    --form-element-spacing-vertical: 0em;
-}
-
-ul#options_list {
-    columns: 5
-}

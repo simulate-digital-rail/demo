@@ -1,0 +1,93 @@
+{% extends "base.html" %}
+{% set active_page = 'converter' %}
+
+{% block title %}OpenRailwayMap to PlanPro Converter{% endblock %}
+
+{% block content %}
+<h2 class="mb-4 text-center">OpenRailwayMap to PlanPro Converter</h2>
+
+<div class="card mb-4 shadow-sm">
+    <div id="map" style="height: 40em; border-radius: 0.33rem;"></div>
+</div>
+
+<!-- Converter Form Card -->
+<div class="card mb-4 shadow-sm">
+  <div class="card-header">
+    Converter Options
+  </div>
+  <div class="card-body">
+    <form>
+      <!-- Polygon Input -->
+      <div class="mb-3">
+        <label for="polygon" class="form-label">Surrounding Polygon</label>
+        <div class="input-group">
+          <textarea id="polygon" name="polygon" class="form-control" rows="2"
+                    placeholder="Click on the map to create points or paste coordinates" required></textarea>
+          <button id="reset-polygon" class="btn btn-outline-danger" type="button">
+            Reset
+          </button>
+        </div>
+      </div>
+
+      <!-- Railway Type Options -->
+      <div class="mb-3">
+        <label class="form-label">Railway Type Options 
+          <small class="text-muted">(see <a href="https://wiki.openstreetmap.org/wiki/DE:Key:railway#Schl%C3%BCsselwerte" target="_blank">documentation</a>)</small>
+        </label>
+        <div class="row row-cols-2 row-cols-md-3 g-2">
+          {% for type in railway_option_types %}
+            {% set checked = " checked" if type == "rail" else "" %}
+            <div class="col">
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="{{ type }}" name="railway_type_options" value="{{ type }}"{{ checked }}>
+                <label class="form-check-label" for="{{ type }}">{{ type }}</label>
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="d-flex gap-2 flex-wrap">
+        <button id="submit-planpro" class="btn btn-primary flex-grow-1 submit-button" type="button" value="planpro">
+          <span class="spinner-border spinner-border-sm me-2 d-none" role="status" aria-hidden="true"></span>
+          Generate PlanPro
+        </button>
+        <button id="submit-routes" class="btn btn-secondary flex-grow-1 submit-button" type="button" value="routes">
+          <span class="spinner-border spinner-border-sm me-2 d-none" role="status" aria-hidden="true"></span>
+          Generate Routes
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Results Card -->
+<div class="card mb-4 shadow-sm">
+  <div class="card-header">
+    Results
+  </div>
+  <div class="card-body">
+    <a id="download-results" class="btn btn-success w-100 mb-3" download="generated.ppxml" hidden>Download Results</a>
+    <textarea id="result_area" class="form-control" rows="15" hidden readonly></textarea>
+  </div>
+</div>
+
+<!-- Error Modal -->
+<div class="modal fade" id="error_modal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header bg-danger text-white">
+        <h5 class="modal-title">Error</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p id="error_message"></p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
