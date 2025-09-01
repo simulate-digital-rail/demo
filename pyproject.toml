@@ -10,7 +10,7 @@ package-mode = false
 python = "^3.11"
 Flask = "^2.2.2"
 yaramo = {git = "https://github.com/simulate-digital-rail/yaramo", branch = "yaramo2" }
-railway-route-generator = {git = "https://github.com/simulate-digital-rail/railway-route-generator", branch = "yaramo2" }
+railway-route-generator = {git = "https://github.com/simulate-digital-rail/railway-route-generator", branch = "yaramo2"}
 orm-importer = {git = "https://github.com/simulate-digital-rail/orm-importer", branch = "yaramo2" }
 planpro-exporter = {git = "https://github.com/simulate-digital-rail/planpro-exporter", branch = "yaramo2" }
 schematicconverter = {git = "https://github.com/simulate-digital-rail/schematic-converter"}

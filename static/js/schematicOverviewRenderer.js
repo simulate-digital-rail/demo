@@ -5,8 +5,9 @@ export class GraphElement {
 }
 
 export class OverviewRenderer {
+    /** -------------------- Constants -------------------- */
     static TRACK_TYPE_COLORS = {
-        "default": "black",
+        default: "black",
         1: "#8DB591",
         2: "#7AAFD1",
         3: "#D9A066",
@@ -14,37 +15,38 @@ export class OverviewRenderer {
         5: "#D38C8C"
     };
 
-    constructor(containerId, computerConfigurator) {
+    /** -------------------- Initialization -------------------- */
+    constructor(containerId, data) {
         this.container = document.getElementById(containerId);
-        this.computerConfigurator = computerConfigurator;
-
         const { width, height } = this.container.getBoundingClientRect();
+
+        this.data = data;
         this.width = width;
         this.height = height;
 
+        // Layout constants
         this.offset = 50;
         this.scaleX = this.width - this.offset * 2;
-        this.scaleY = this.height - this.offset * 2;
+        this.labelOffset = 17;
+        this.verticalSignalOffset = 5;
+        this.diagonalSignalOffset = Math.sqrt(12.5);
 
+        // SVG & simulation state
         this.svg = null;
         this.zoomGroup = null;
         this.zoom = null;
-
-        this.nodes = [];
-        this.links = [];
         this.simulation = null;
 
-        this.link = null;
-        this.node = null;
-        this.zoomSet = false;
-    }
+        // Data holders
+        this.nodes = [];
+        this.links = [];
 
-    /** -------------------- Data -------------------- */
-    async loadData() {
-        const url = `/planprofiles/estw/generate/${this.container.dataset.project}`;
-        return new Promise((resolve, reject) => {
-            $.getJSON(url, data => resolve(data)).fail((_, __, err) => reject(err));
-        });
+        // Selections
+        this.link = null;
+        this.linkLabels = null;
+        this.node = null;
+
+        this.zoomSet = false;
     }
 
     async loadSignalSVG() {
@@ -70,17 +72,11 @@ export class OverviewRenderer {
         this.svg.call(this.zoom);
     }
 
-    /** -------------------- Processing -------------------- */
+    /** -------------------- Data Processing -------------------- */
     processNodes(nodes) {
         nodes.forEach(node => {
             node.fx = node.x * this.scaleX + this.offset;
-            node.fy = node.y * this.scaleY + this.offset;
-
-            const theta = node.angle * Math.PI / 180;
-            const scaledX = Math.cos(theta) / this.scaleX;
-            const scaledY = Math.sin(theta) / this.scaleY;
-            node.angle = Math.atan2(scaledY, scaledX) * 180 / Math.PI;
-
+            node.fy = node.y * this.scaleX + this.offset;
             node.active = false;
         });
     }
@@ -113,8 +109,7 @@ export class OverviewRenderer {
         points.append("circle")
             .attr("id", d => `point-${d.uuid}`)
             .attr("r", 10)
-            .attr("fill", "white")
-            .attr("cursor", "pointer")
+            .attr("fill", "white");
 
         points.append("text")
             .attr("id", d => `point-label-${d.uuid}`)
@@ -143,39 +138,78 @@ export class OverviewRenderer {
         signals.append("text")
             .attr("id", d => `signal-label-${d.uuid}`)
             .attr("class", "signal-label")
-            .attr("x", d => (d.direction === "in" ? -17 : 17))
-            .attr("y", d => (d.direction === "in" ? 37 : -25))
+            .attr("x", d => this.getSignalLabelOffset(d.angle, d.direction)[0])
+            .attr("y", d => this.getSignalLabelOffset(d.angle, d.direction)[1])
             .attr("text-anchor", "middle")
-            .style("font-weight", 600)
+            .style("font-weight", 700)
             .style("visibility", "hidden")
             .text(d => d.name);
     }
 
-    /** -------------------- Utilities -------------------- */
+    /** -------------------- Signal Helpers -------------------- */
     buildSignalNode(d, node, svgElement) {
         const importedNode = document.importNode(svgElement, true);
-        const iconGroup = d3.select(node)
+        d3.select(node)
             .attr("class", "signal")
             .attr("id", `signal-${d.uuid}`)
             .append("g")
             .datum(d)
             .attr("transform", () => {
-                const baseTranslate = d.direction === "in" ? "translate(0, 5)" : "translate(0, -5)";
-                const extraTranslate = (d.angle % 90 !== 0) ? " translate(0, 22)" : "";
-                return `${baseTranslate}${extraTranslate} scale(0.04) rotate(${d.angle})`;
+                const [x, y] = this.getSignalTranslate(d.angle, d.direction);
+                return `translate(${x}, ${y}) scale(0.045) rotate(${d.angle})`;
             })
             .attr("fill", "black")
-            .style("cursor", "pointer");
+            .node().appendChild(importedNode);
+    }
 
-        iconGroup.node().appendChild(importedNode);
-        const bbox = importedNode.getBBox();
-        iconGroup.append("rect")
-            .attr("x", bbox.x)
-            .attr("y", bbox.y)
-            .attr("width", bbox.width)
-            .attr("height", bbox.height)
-            .attr("fill", "transparent")
-            .style("pointer-events", "all");
+    getSignalTranslate(angle, direction) {
+        if (angle % 90 === 0) {
+            return direction === "in"
+                ? [0, this.verticalSignalOffset]
+                : [0, -this.verticalSignalOffset];
+        }
+        if ((angle + 45) % 180 === 0) {
+            return direction === "in"
+                ? [-this.diagonalSignalOffset, this.diagonalSignalOffset]
+                : [this.diagonalSignalOffset, -this.diagonalSignalOffset];
+        }
+        if ((angle - 45) % 180 === 0) {
+            return direction === "in"
+                ? [this.diagonalSignalOffset, this.diagonalSignalOffset]
+                : [-this.diagonalSignalOffset, -this.diagonalSignalOffset];
+        }
+        return [0, 0];
+    }
+
+    getSignalLabelOffset(angle, direction) {
+        let x = 0;
+        if (angle % 90 === 0) {
+            x = direction === "in" ? -this.labelOffset : this.labelOffset;
+        } else if ((angle + 45) % 180 === 0) {
+            x = direction === "in" ? -60 : 60;
+        } else if ((angle - 45) % 180 === 0) {
+            x = direction === "in" ? 60 : -60;
+        }
+
+        let y = 0;
+        if (angle % 90 === 0) {
+            y = direction === "in" ? this.labelOffset + 20 : -this.labelOffset - 8;
+        }
+        return [x, y];
+    }
+
+    /** -------------------- Label Helpers -------------------- */
+    getNodeLabelTranslateY(node) {
+        for (const link of this.links) {
+            const isSource = link.source.uuid === node.uuid;
+            const isTarget = link.target.uuid === node.uuid;
+            if (!isSource && !isTarget) continue;
+            if (link.source.y === link.target.y) continue;
+
+            const above = link.source.y < link.target.y;
+            if (isSource === above) return -this.labelOffset;
+        }
+        return this.labelOffset + 10;
     }
 
     /** -------------------- Simulation -------------------- */
@@ -192,37 +226,24 @@ export class OverviewRenderer {
             .attr("transform", d => {
                 const x = (d.source.x + d.target.x) / 2;
                 const y = (d.source.y + d.target.y) / 2;
-                if (d.source.y > d.target.y) return `rotate(-48, ${x-8}, ${y})`;
-                if (d.source.y < d.target.y) return `rotate(48, ${x+5}, ${y+5})`;
+                if (d.source.y > d.target.y) return `rotate(-45, ${x-5}, ${y+5})`;
+                if (d.source.y < d.target.y) return `rotate(45, ${x+5}, ${y+5})`;
                 return null;
             })
-            .attr("dy", d => d.source.y === d.target.y ? 18 : 0);
+            .attr("dy", d => d.source.y === d.target.y ? this.labelOffset : 0);
 
         this.node.attr("transform", d => `translate(${d.x},${d.y})`);
 
         this.node.select("text")
             .filter(d => d.type === "NodeType.Point")
-            .attr("y", d => this.calculatePointLabelY(d));
-    }
-
-    calculatePointLabelY(d) {
-        for (const link of this.links) {
-            const isSource = link.source.uuid === d.uuid;
-            const isTarget = link.target.uuid === d.uuid;
-            if (!isSource && !isTarget) continue;
-
-            if (link.source.y === link.target.y) continue;
-            const above = link.source.y < link.target.y;
-            return (isSource === above) ? -17 : 28;
-        }
-        return 28;
+            .style("font-weight", 700)
+            .attr("y", d => this.getNodeLabelTranslateY(d));
     }
 
     /** -------------------- Main Render -------------------- */
     async render() {
-        const data = await this.loadData();
-        this.nodes = data.nodes.map(node => new GraphElement(node));
-        this.links = data.edges;
+        this.nodes = this.data.nodes.map(node => new GraphElement(node));
+        this.links = this.data.edges;
 
         this.processNodes(this.nodes);
         this.setupSVG();
@@ -244,16 +265,16 @@ export class OverviewRenderer {
             .force("center", d3.forceCenter(this.width / 2, this.height / 2))
             .on("tick", () => this.ticked());
 
-        this.zoomSet = false;
         this.simulation.on("tick", () => {
             this.ticked();
-            if (!this.zoomSet) this.applyInitialZoom(data);
+            if (!this.zoomSet) this.applyInitialZoom();
         });
     }
 
-    applyInitialZoom(data) {
-        const scaleFactor = 1 / Math.max(data.properties.max_x, data.properties.max_y);
+    applyInitialZoom() {
+        const scaleFactor = 1 / Math.max(this.data.properties.max_x, this.data.properties.max_y);
         const bbox = this.zoomGroup.node().getBBox();
+
         const translateX = (this.width - bbox.width * scaleFactor) / 2 - bbox.x * scaleFactor;
         const translateY = (this.height - bbox.height * scaleFactor) / 2 - bbox.y * scaleFactor;
         const initialTransform = d3.zoomIdentity.translate(translateX, translateY).scale(scaleFactor);
@@ -266,22 +287,24 @@ export class OverviewRenderer {
 }
 
 /** -------------------- UI Controls -------------------- */
-function toggleLabels(selector, show) {
-    d3.selectAll(selector).style("visibility", show ? "visible" : "hidden");
+function toggleLabels(selector, visible) {
+    d3.selectAll(selector).style("visibility", visible ? "visible" : "hidden");
+}
+
+function resetEdgeLabels() {
+    const edgeCheckBox = document.getElementById("toggle-edge-labels");
+    edgeCheckBox.checked = false;
+    edgeCheckBox.dispatchEvent(new Event("change"));
 }
 
 document.getElementById("toggle-point-labels").addEventListener("change", function () {
     toggleLabels(".point-label", this.checked);
-    const edgeCheckBox = document.getElementById("toggle-edge-labels");
-    edgeCheckBox.checked = false;
-    edgeCheckBox.dispatchEvent(new Event("change"));
+    resetEdgeLabels();
 });
 
 document.getElementById("toggle-signal-labels").addEventListener("change", function () {
     toggleLabels(".signal-label", this.checked);
-    const edgeCheckBox = document.getElementById("toggle-edge-labels");
-    edgeCheckBox.checked = false;
-    edgeCheckBox.dispatchEvent(new Event("change"));
+    resetEdgeLabels();
 });
 
 document.getElementById("toggle-edge-labels").addEventListener("change", function () {
@@ -297,13 +320,11 @@ document.getElementById("toggle-edge-labels").addEventListener("change", functio
 });
 
 document.getElementById("toggle-track-colors").addEventListener("change", function () {
+    const useColors = this.checked;
     d3.selectAll(".edge")
-        .style("stroke", d => {
-            if (!this.checked) return "black";
-            return GraphRenderer.TRACK_TYPE_COLORS[d.type] || "black";
-        })
+        .style("stroke", d => useColors ? (OverviewRenderer.TRACK_TYPE_COLORS[d.type] || "black") : "black")
         .style("stroke-dasharray", d => {
-            if (!this.checked) return "none";
-            return GraphRenderer.TRACK_TYPE_COLORS[d.type] ? "none" : "5,5";
+            if (!useColors) return "none";
+            return OverviewRenderer.TRACK_TYPE_COLORS[d.type] ? "none" : "5,5";
         });
 });

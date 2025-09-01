@@ -1,0 +1,71 @@
+
+/*** File Upload ***/
+
+.upload-container {
+    padding: 1.5em;
+    border: 0.1em solid #dee2e6;
+    border-radius: 0.5em;
+    background-color: #f8f9fa;
+    box-shadow: 0 0.1em 0.2em rgba(0, 0, 0, 0.05);
+}
+
+.upload-heading {
+    font-size: 1em;
+}
+
+.upload-row .form-control,
+.upload-row .form-select,
+.upload-row .btn {
+    height: 2.5em;
+}
+
+.file-input-wrapper {
+    min-width: 15.5em;
+}
+
+#planpro-version {
+    min-width: 7.5em;
+}
+
+#ks-signals {
+    min-width: 11em;
+}
+
+#download-file.disabled {
+    pointer-events: none;
+    opacity: 0.6;
+}
+
+
+
+/*** Graph ***/
+
+#graph-container {
+  background-color: #ffffff;
+}
+
+line {
+  stroke: #000000;
+  stroke-width: 3.5px;
+}
+
+circle {
+  stroke: #000000;
+  stroke-width: 3.5px;
+}
+
+.btn-outline-dark {
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  font-weight: 600;
+  background-color: #FFFFFF;
+}
+
+input.toggle-labels-btn.btn-check:not(:checked) + label.btn-outline-dark:hover {
+    background-color: #dad7d7;
+    color: #000000;
+}

@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% set active_page = 'converter' %}
+{% set active_page = 'orm-converter' %}
 
 {% block title %}OpenRailwayMap to PlanPro Converter{% endblock %}
 
@@ -7,17 +7,15 @@
 <h2 class="mb-4 text-center">OpenRailwayMap to PlanPro Converter</h2>
 
 <div class="card mb-4 shadow-sm">
-    <div id="map" style="height: 40em; border-radius: 0.33rem;"></div>
+  <div id="map" style="height: 40em;"></div>
 </div>
 
-<!-- Converter Form Card -->
 <div class="card mb-4 shadow-sm">
   <div class="card-header">
     Converter Options
   </div>
   <div class="card-body">
     <form>
-      <!-- Polygon Input -->
       <div class="mb-3">
         <label for="polygon" class="form-label">Surrounding Polygon</label>
         <div class="input-group">
@@ -29,25 +27,23 @@
         </div>
       </div>
 
-      <!-- Railway Type Options -->
       <div class="mb-3">
         <label class="form-label">Railway Type Options 
           <small class="text-muted">(see <a href="https://wiki.openstreetmap.org/wiki/DE:Key:railway#Schl%C3%BCsselwerte" target="_blank">documentation</a>)</small>
         </label>
         <div class="row row-cols-2 row-cols-md-3 g-2">
           {% for type in railway_option_types %}
-            {% set checked = " checked" if type == "rail" else "" %}
-            <div class="col">
-              <div class="form-check">
-                <input class="form-check-input" type="checkbox" id="{{ type }}" name="railway_type_options" value="{{ type }}"{{ checked }}>
-                <label class="form-check-label" for="{{ type }}">{{ type }}</label>
-              </div>
+          {% set checked = " checked" if type == "rail" else "" %}
+          <div class="col">
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" id="{{ type }}" name="railway_type_options" value="{{ type }}"{{ checked }}>
+              <label class="form-check-label" for="{{ type }}">{{ type }}</label>
             </div>
+          </div>
           {% endfor %}
         </div>
       </div>
 
-      <!-- Action Buttons -->
       <div class="d-flex gap-2 flex-wrap">
         <button id="submit-planpro" class="btn btn-primary flex-grow-1 submit-button" type="button" value="planpro">
           <span class="spinner-border spinner-border-sm me-2 d-none" role="status" aria-hidden="true"></span>
@@ -62,7 +58,6 @@
   </div>
 </div>
 
-<!-- Results Card -->
 <div class="card mb-4 shadow-sm">
   <div class="card-header">
     Results
@@ -72,22 +67,11 @@
     <textarea id="result_area" class="form-control" rows="15" hidden readonly></textarea>
   </div>
 </div>
+{% endblock %}
 
-<!-- Error Modal -->
-<div class="modal fade" id="error_modal" tabindex="-1" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content">
-      <div class="modal-header bg-danger text-white">
-        <h5 class="modal-title">Error</h5>
-        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <p id="error_message"></p>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
-      </div>
-    </div>
-  </div>
-</div>
+{% block scripts %}
+<script src="https://unpkg.com/leaflet@1.8.0/dist/leaflet.js"
+        integrity="sha512-BB3hKbKWOc9Ez/TAwyWxNXeoV9c1v6FIeYiBieIWkpLjauysF18NzgR1MBNBXf8/KABdlkX68nAhlwcDFLGPCQ=="
+        crossorigin=""></script>
+<script src="{{ url_for('static', filename='js/ormConverter.js') }}"></script>
 {% endblock %}

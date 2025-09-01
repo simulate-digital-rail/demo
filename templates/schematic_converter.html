@@ -1,26 +1,65 @@
-<head>
-    <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/estwGeneratorStyle.css') }}">
-    <script src="../static/js/d3.v7.min.js"></script>
-</head>
+{% extends "base.html" %}
+{% set active_page = 'schematic-converter' %}
 
-<body>
-    <h1 class="mb-4">Zusammenstellung der Baugruppenfunktionsbelegung</h1>
+{% block title %}OpenRailwayMap to PlanPro Converter{% endblock %}
+
+{% block content %}
+
+<h2 class="mb-4 text-center">Schematic Converter for PlanPro </h2>
+
+<div class="upload-container mb-4">
+    <h6 class="upload-heading mb-4">Upload a PlanPro File to Convert It Into a Schematic Overview</h6>
+    <div class="upload-row d-flex flex-wrap align-items-center gap-3">
+        <div class="file-input-wrapper flex-grow-1">
+            <input type="file" id="input-file" class="form-control" accept=".ppxml">
+        </div>
+        <div>
+            <select class="form-select" id="planpro-version">
+                <option value="1.9">PlanPro 1.9</option>
+                <option value="1.10" selected>PlanPro 1.10</option>
+            </select>
+        </div>
+        <div>
+            <select class="form-select" id="ks-signals">
+                <option value="all">Show all signals</option>
+                <option value="ks" selected>Only show KS Signals</option>
+            </select>
+        </div>
+        <div>
+            <button type="button" id="process-file" class="btn btn-primary d-flex align-items-center">
+                <span class="spinner-border spinner-border-sm me-2 d-none" role="status" aria-hidden="true"></span>
+                Process
+            </button>
+        </div>
+        <div>
+            <a id="download-file" class="btn btn-success disabled" download="processed_file.xml">Download</a>
+        </div>
+    </div>
+</div>
+
+
+<div class="graph" style="position: relative;">
     <div class="btn-group btn-group-sm" role="group" style="gap: 0px; position: absolute; top: 10px; right: 20px;">
         <input type="checkbox" class="btn-check toggle-labels-btn" id="toggle-point-labels" autocomplete="off">
         <label class="btn btn-outline-dark" for="toggle-point-labels">W</label>
-
+        
         <input type="checkbox" class="btn-check toggle-labels-btn" id="toggle-signal-labels" autocomplete="off">
         <label class="btn btn-outline-dark" for="toggle-signal-labels">S</label>
-
+        
         <input type="checkbox" class="btn-check toggle-labels-btn" id="toggle-edge-labels" autocomplete="off">
         <label class="btn btn-outline-dark" for="toggle-edge-labels">G</label>
-
+        
         <input type="checkbox" class="btn-check toggle-labels-btn" id="toggle-track-colors" autocomplete="off">
         <label class="btn btn-outline-dark" for="toggle-track-colors">T</label>
     </div>
-    <div id="graph-container" class="border rounded" data-project="{{ report.project.project_name }}" style="height: 500px;">
+    <div id="graph-container" class="border rounded" style="height: 40em;">
         <svg width="100%" height="100%"></svg>
     </div>
-</body>
+</div>
+{% endblock %}
+
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/d3.v7.min.js') }}"></script>
+<script type="module" src="{{ url_for('static', filename='js/schematicConverter.js') }}"></script>
+{% endblock %}
