@@ -24,6 +24,7 @@ document.getElementById("process-file").addEventListener("click", async function
             document.getElementById("toggle-signal-labels").checked = false;
             document.getElementById("toggle-edge-labels").checked = false;
             document.getElementById("toggle-track-colors").checked = false;
+            document.getElementById("graph-legend").style.visibility = "hidden";
             document.getElementById("download-file").classList.remove("disabled");
         } else {
             showErrorModal("Conversion Failed", response.data.message);

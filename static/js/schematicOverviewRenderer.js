@@ -46,7 +46,7 @@ export class OverviewRenderer {
         this.linkLabels = null;
         this.node = null;
 
-        this.zoomSet = false;
+        this.zoomSet = false;       
     }
 
     async loadSignalSVG() {
@@ -97,7 +97,7 @@ export class OverviewRenderer {
             .join("text")
             .attr("class", "edge-label")
             .attr("text-anchor", "middle")
-            .style("font-weight", 600)
+            .style("font-weight", 700)
             .style("pointer-events", "none")
             .style("visibility", "hidden")
             .text(d => (d.uuid ? d.uuid.slice(-5) : ""));
@@ -115,7 +115,7 @@ export class OverviewRenderer {
             .attr("id", d => `point-label-${d.uuid}`)
             .attr("class", "point-label")
             .attr("text-anchor", "middle")
-            .style("font-weight", 600)
+            .style("font-weight", 700)
             .style("visibility", "hidden")
             .text(d => d.name);
     }
@@ -321,6 +321,19 @@ document.getElementById("toggle-edge-labels").addEventListener("change", functio
 
 document.getElementById("toggle-track-colors").addEventListener("change", function () {
     const useColors = this.checked;
+
+    if (useColors) {
+        document.getElementById("legend-line-durchgehendes-hauptgleis").style.backgroundColor = OverviewRenderer.TRACK_TYPE_COLORS[1];
+        document.getElementById("legend-line-hauptgleis").style.backgroundColor = OverviewRenderer.TRACK_TYPE_COLORS[2];
+        document.getElementById("legend-line-streckengleis").style.backgroundColor = OverviewRenderer.TRACK_TYPE_COLORS[3];
+        document.getElementById("legend-line-anschlussgleis").style.backgroundColor = OverviewRenderer.TRACK_TYPE_COLORS[4];
+        document.getElementById("legend-line-nebengleis").style.backgroundColor = OverviewRenderer.TRACK_TYPE_COLORS[5];
+        document.getElementById("graph-legend").style.visibility = "visible";
+    }
+    else {
+        document.getElementById("graph-legend").style.visibility = "hidden";
+    }
+
     d3.selectAll(".edge")
         .style("stroke", d => useColors ? (OverviewRenderer.TRACK_TYPE_COLORS[d.type] || "black") : "black")
         .style("stroke-dasharray", d => {

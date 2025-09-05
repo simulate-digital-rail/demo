@@ -39,7 +39,7 @@
 
 
 <div class="graph" style="position: relative;">
-    <div class="btn-group btn-group-sm" role="group" style="gap: 0px; position: absolute; top: 10px; right: 20px;">
+    <div class="btn-group btn-group-sm" role="group">
         <input type="checkbox" class="btn-check toggle-labels-btn" id="toggle-point-labels" autocomplete="off">
         <label class="btn btn-outline-dark" for="toggle-point-labels">W</label>
         
@@ -53,6 +53,27 @@
         <label class="btn btn-outline-dark" for="toggle-track-colors">T</label>
     </div>
     <div id="graph-container" class="border rounded" style="height: 40em;">
+        <div id="graph-legend" class="card p-2">
+            <div class="legend-item d-flex align-items-center mb-1">
+                <span id="legend-line-durchgehendes-hauptgleis" class="legend-line me-2" style="background-color: #8DB591;"></span> Durchgehendes Hauptgleis
+            </div>
+            <div class="legend-item d-flex align-items-center mb-1">
+                <span id="legend-line-hauptgleis" class="legend-line me-2" style="background-color: #7AAFD1;"></span> Hauptgleis
+            </div>
+            <div class="legend-item d-flex align-items-center mb-1">
+                <span id="legend-line-streckengleis" class="legend-line me-2" style="background-color: #D9A066;"></span> Streckengleis
+            </div>
+            <div class="legend-item d-flex align-items-center mb-1">
+                <span id="legend-line-anschlussgleis" class="legend-line me-2" style="background-color: #AA8CB7;"></span> Anschlussgleis
+            </div>
+            <div class="legend-item d-flex align-items-center mb-1">
+                <span id="legend-line-nebengleis" class="legend-line me-2" style="background-color: #D38C8C;"></span> Nebengleis
+            </div>
+            <div class="legend-item d-flex align-items-center mb-1">
+                <span id="legend-line-not-specified" class="legend-line dashed me-2"></span> Not Specified
+            </div>
+        </div>
+
         <svg width="100%" height="100%"></svg>
     </div>
 </div>
