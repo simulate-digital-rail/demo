@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+{% set active_page = 'schematic-converter' %}
+
+{% block title %}OpenRailwayMap to PlanPro Converter{% endblock %}
+
+{% block content %}
+
+<h2 class="mb-4 text-center">Schematic Converter for PlanPro </h2>
+
+<div class="upload-container mb-4">
+    <h6 class="upload-heading mb-4">Upload a PlanPro File to Convert It Into a Schematic Overview</h6>
+    <div class="upload-row d-flex flex-wrap align-items-center gap-3">
+        <div class="file-input-wrapper flex-grow-1">
+            <input type="file" id="input-file" class="form-control" accept=".ppxml">
+        </div>
+        <div>
+            <select class="form-select" id="planpro-version">
+                <option value="1.9">PlanPro 1.9</option>
+                <option value="1.10" selected>PlanPro 1.10</option>
+            </select>
+        </div>
+        <div>
+            <select class="form-select" id="ks-signals">
+                <option value="all">Show all signals</option>
+                <option value="ks" selected>Only show KS Signals</option>
+            </select>
+        </div>
+        <div>
+            <button type="button" id="process-file" class="btn btn-primary d-flex align-items-center">
+                <span class="spinner-border spinner-border-sm me-2 d-none" role="status" aria-hidden="true"></span>
+                Process
+            </button>
+        </div>
+        <div>
+            <a id="download-file" class="btn btn-success disabled" download="processed_file.xml">Download</a>
+        </div>
+    </div>
+</div>
+
+
+<div class="graph" style="position: relative;">
+    <div class="btn-group btn-group-sm" role="group">
+        <input type="checkbox" class="btn-check toggle-labels-btn" id="toggle-point-labels" autocomplete="off">
+        <label class="btn btn-outline-dark" for="toggle-point-labels">W</label>
+        
+        <input type="checkbox" class="btn-check toggle-labels-btn" id="toggle-signal-labels" autocomplete="off">
+        <label class="btn btn-outline-dark" for="toggle-signal-labels">S</label>
+        
+        <input type="checkbox" class="btn-check toggle-labels-btn" id="toggle-edge-labels" autocomplete="off">
+        <label class="btn btn-outline-dark" for="toggle-edge-labels">G</label>
+        
+        <input type="checkbox" class="btn-check toggle-labels-btn" id="toggle-track-colors" autocomplete="off">
+        <label class="btn btn-outline-dark" for="toggle-track-colors">T</label>
+    </div>
+    <div id="graph-container" class="border rounded" style="height: 40em;">
+        <div id="graph-legend" class="card p-2">
+            <div class="legend-item d-flex align-items-center mb-1">
+                <span id="legend-line-durchgehendes-hauptgleis" class="legend-line me-2" style="background-color: #8DB591;"></span> Durchgehendes Hauptgleis
+            </div>
+            <div class="legend-item d-flex align-items-center mb-1">
+                <span id="legend-line-hauptgleis" class="legend-line me-2" style="background-color: #7AAFD1;"></span> Hauptgleis
+            </div>
+            <div class="legend-item d-flex align-items-center mb-1">
+                <span id="legend-line-streckengleis" class="legend-line me-2" style="background-color: #D9A066;"></span> Streckengleis
+            </div>
+            <div class="legend-item d-flex align-items-center mb-1">
+                <span id="legend-line-anschlussgleis" class="legend-line me-2" style="background-color: #AA8CB7;"></span> Anschlussgleis
+            </div>
+            <div class="legend-item d-flex align-items-center mb-1">
+                <span id="legend-line-nebengleis" class="legend-line me-2" style="background-color: #D38C8C;"></span> Nebengleis
+            </div>
+            <div class="legend-item d-flex align-items-center mb-1">
+                <span id="legend-line-not-specified" class="legend-line dashed me-2"></span> Not Specified
+            </div>
+        </div>
+
+        <svg width="100%" height="100%"></svg>
+    </div>
+</div>
+{% endblock %}
+
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/d3.v7.min.js') }}"></script>
+<script type="module" src="{{ url_for('static', filename='js/schematicConverter.js') }}"></script>
+{% endblock %}

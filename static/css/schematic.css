@@ -1,0 +1,104 @@
+
+/*** File Upload ***/
+
+.upload-container {
+  padding: 1.5em;
+  border: 0.1em solid #dee2e6;
+  border-radius: 0.5em;
+  background-color: #f8f9fa;
+  box-shadow: 0 0.1em 0.2em rgba(0, 0, 0, 0.05);
+}
+
+.upload-heading {
+  font-size: 1em;
+}
+
+.upload-row .form-control,
+.upload-row .form-select,
+.upload-row .btn {
+  height: 2.5em;
+}
+
+.file-input-wrapper {
+  min-width: 15.5em;
+}
+
+#planpro-version {
+  min-width: 7.5em;
+}
+
+#ks-signals {
+  min-width: 11em;
+}
+
+#download-file.disabled {
+  pointer-events: none;
+  opacity: 0.6;
+}
+
+
+
+/*** Graph ***/
+
+#graph-container {
+  background-color: #ffffff;
+}
+
+line {
+  stroke: #000000;
+  stroke-width: 3.5px;
+}
+
+circle {
+  stroke: #000000;
+  stroke-width: 3.5px;
+}
+
+.btn-outline-dark {
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  font-weight: 600;
+  background-color: rgba(255, 255, 255, 0.8);
+}
+
+input.toggle-labels-btn.btn-check:not(:checked) + label.btn-outline-dark:hover {
+  background-color: rgba(244, 244, 244, 1);
+  color: #000000;
+}
+
+#graph-legend {
+  background-color: rgba(255, 255, 255, 0.8);
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  width: 220px;
+  font-size: 0.9rem;
+  z-index: 10;
+  pointer-events: none;
+  visibility: hidden;
+}
+
+.btn-group-sm {
+  gap: 0px;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+
+#graph-legend .legend-line {
+  display: inline-block;
+  width: 20px;
+  height: 3px;
+  border-radius: 2px;
+}
+
+#graph-legend .legend-line.dashed {
+  background: none;
+  border-top: 3px dotted #000;
+  height: 0;
+  border-radius: 0;
+}

@@ -1,21 +1,24 @@
 [tool.poetry]
 name = "demo"
-version = "2.0"
+version = "3.1"
 description = "Simulate Digital Rail demo"
 authors = ["OSM at HPI <arne.boockmeyer@hpi.de>"]
 readme = "README.md"
+#package-mode = false
 
 [tool.poetry.dependencies]
 python = "^3.11"
 Flask = "^2.2.2"
-railway-route-generator = {git = "https://github.com/simulate-digital-rail/railway-route-generator", tag = "v4.0" }
-orm-importer = {git = "https://github.com/simulate-digital-rail/orm-importer", tag = "v2.0" }
-planpro-exporter = {git = "https://github.com/simulate-digital-rail/planpro-exporter", tag = "v2.0" }
+yaramo = {git = "https://github.com/simulate-digital-rail/yaramo" }
+railway-route-generator = {git = "https://github.com/simulate-digital-rail/railway-route-generator"}
+orm-importer = {git = "https://github.com/simulate-digital-rail/orm-importer" }
+planpro-exporter = {git = "https://github.com/simulate-digital-rail/planpro-exporter" }
+schematicconverter = {git = "https://github.com/simulate-digital-rail/schematic-converter"}
 
 
 [tool.poetry.group.dev.dependencies]
-cli-importer = {git = "https://github.com/simulate-digital-rail/cli-importer", tag = "v2.0" }
-planpro-exporter = {git = "https://github.com/simulate-digital-rail/planpro-exporter", tag = "v2.0" }
+cli-importer = {git = "https://github.com/simulate-digital-rail/cli-importer" }
+planpro-exporter = {git = "https://github.com/simulate-digital-rail/planpro-exporter" }
 
 [build-system]
 requires = ["poetry-core"]
